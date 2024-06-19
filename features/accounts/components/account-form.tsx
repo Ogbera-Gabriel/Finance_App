@@ -74,20 +74,18 @@ export const AccountForm = ({
           {id ? "Save Changes" : "Create Account"}
         </Button>
 
-        <div className="flex justify-end">
-          {!!id && (
-            <Button
-              type="button"
-              disabled={disabled}
-              onClick={handleDelete}
-              className="w-full"
-              variant="outline"
-            >
-              <Trash className="mr-2 size-4" />
-              Delete Account
-            </Button>
-          )}
-        </div>
+        {!!id && (
+          <Button
+            type="button"
+            disabled={disabled}
+            onClick={handleDelete}
+            className="w-full"
+            variant="outline"
+          >
+            <Trash className="mr-2 size-4" />
+            Delete Account
+          </Button>
+        )}
       </form>
     </Form>
   );
