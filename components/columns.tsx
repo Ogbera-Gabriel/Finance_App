@@ -3,59 +3,48 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { InferResponseType } from "hono";
 import { Checkbox } from "./ui/checkbox";
+import { client } from "@/lib/hono";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+export type ResponseType = InferResponseType<
+  typeof client.api.accounts.$get,
+  200
+>["data"][0]; // infer response type
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ResponseType>[] = [
   {
-     id: "select",
-     header: ({ table }) => (
-      <Checkbox 
-       checked={
-        table.getIsAllRowsSelected() ||
-        (table.getIsSomeRowsSelected() && "indeterminate")
-      }
-       onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-       aria-label="Select all"
-      />
-     ),
-     cell: ({ row }) => (
+    id: "select",
+    header: ({ table }) => (
       <Checkbox
-       checked={row.getIsSelected()}
-       onCheckedChange={row.getToggleSelectedHandler()}
-       aria-label="Select row"
+        checked={
+          table.getIsAllRowsSelected() ||
+          (table.getIsSomeRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+        aria-label="Select all"
       />
-     )
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={row.getToggleSelectedHandler()}
+        aria-label="Select row"
+      />
+    ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "email",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
-         variant="ghost"
-         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Email
-         <ArrowUpDown className="size-4 ml-2"/> 
+          Name
+          <ArrowUpDown className="size-4 ml-2" />
         </Button>
-      )
+      );
     },
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
   },
 ];
