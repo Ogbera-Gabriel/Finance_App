@@ -5,38 +5,51 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
+import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import { useConfirm } from "@/hooks/use-confirm";
 
 type Props = {
-   id: string
-}
+  id: string;
+};
 
 export const Actions = ({ id }: Props) => {
-    const { onOpen } = useOpenAccount();
-    return (
-      <>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              disabled={false}
-              onClick={() => onOpen(id)}
-            >
-              EDIT
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </>
-    )
-}
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure you want to delete this account?",
+    "Delete Account"
+  );
+  const deleteMutation = useDeleteAccount(id);
+  const { onOpen } = useOpenAccount();
+  const handleDelete = async () => {
+    const ok = await confirm();
+
+    if (ok) {
+      deleteMutation.mutate();
+    }
+  };
+  return (
+    <>
+      <ConfirmDialog />
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem disabled={deleteMutation.isPending} onClick={() => onOpen(id)}>
+            EDIT
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled={deleteMutation.isPending} onClick={handleDelete}>
+            <Trash className="mr-2 h-4 w-4" />
+            DELETE
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+};
