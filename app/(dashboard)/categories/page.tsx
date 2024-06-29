@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
-import { columnsCategory } from "@/components/columnsCategory";
+import { columnsCategory } from "@/components/category/columnsCategory";
 
 
 

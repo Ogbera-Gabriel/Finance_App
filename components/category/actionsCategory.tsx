@@ -6,23 +6,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { MoreHorizontal, Trash } from "lucide-react";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
+import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
 
 type Props = {
   id: string;
 };
 
-export const Actions = ({ id }: Props) => {
+export const ActionsCategory = ({ id }: Props) => {
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure you want to delete this account?",
-    "Delete Account"
+    "Are you sure you want to delete this category?",
+    "Delete Category"
   );
-  const deleteMutation = useDeleteAccount(id);
-  const { onOpen } = useOpenAccount();
+  const deleteMutation = useDeleteCategory(id);
+  const { onOpen } = useOpenCategory();
   const handleDelete = async () => {
     const ok = await confirm();
 
