@@ -15,6 +15,13 @@
       "when": 1718365386964,
       "tag": "0001_pretty_prowler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1719657408661,
+      "tag": "0002_naive_paper_doll",
+      "breakpoints": true
     }
   ]
 }
