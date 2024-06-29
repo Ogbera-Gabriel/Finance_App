@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { MoreHorizontal, Trash } from "lucide-react";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
 import { useConfirm } from "@/hooks/use-confirm";
@@ -42,11 +42,12 @@ export const Actions = ({ id }: Props) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem disabled={deleteMutation.isPending} onClick={() => onOpen(id)}>
-            EDIT
+            <Edit className="mr-2 h-4 w-4" />
+            Edit
           </DropdownMenuItem>
           <DropdownMenuItem disabled={deleteMutation.isPending} onClick={handleDelete}>
             <Trash className="mr-2 h-4 w-4" />
-            DELETE
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
