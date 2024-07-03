@@ -22,6 +22,13 @@
       "when": 1719657408661,
       "tag": "0002_naive_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720013498930,
+      "tag": "0003_hesitant_king_bedlam",
+      "breakpoints": true
     }
   ]
 }
