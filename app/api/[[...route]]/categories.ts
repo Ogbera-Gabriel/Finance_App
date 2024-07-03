@@ -52,7 +52,7 @@ const app = new Hono()
         .where(and(eq(categories.id, id), eq(categories.userId, auth.userId)));
 
       if (!data) {
-        return c.json({ error: "Account not found" }, 404);
+        return c.json({ error: "Category not found" }, 404);
       }
 
       return c.json({ data });
@@ -140,7 +140,7 @@ const app = new Hono()
         .returning();
 
       if (!data) {
-        return c.json({ error: "Account not found" }, 404);
+        return c.json({ error: "Category not found to change" }, 404);
       }
 
       return c.json({ data });
@@ -170,7 +170,7 @@ const app = new Hono()
         });
 
       if (!data) {
-        return c.json({ error: "Account not found" }, 404);
+        return c.json({ error: "Category not found to delete" }, 404);
       }
 
       return c.json({ data });
