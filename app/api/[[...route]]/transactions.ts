@@ -157,7 +157,7 @@ const app = new Hono()
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(
             and(
-              inArray(transactions.id, values.ids),// inarray is for selecting multiple ids
+              inArray(transactions.id, values.ids), // inarray is for selecting multiple ids
               eq(accounts.userId, auth.userId)
             )
           )
@@ -179,6 +179,31 @@ const app = new Hono()
       return c.json({
         data,
       });
+    }
+  )
+  .post(
+    "/bulk-create",
+    clerkMiddleware(),
+    zValidator("json", z.array(insertTransactionSchema.omit({ id: true }))),
+    async (c) => {
+      const auth = getAuth(c);
+      const values = c.req.valid("json");
+
+      if (!auth?.userId) {
+        return c.json({ error: "Unauthorized User" }, 401);
+      }
+
+      const data = await db
+      .insert(transactions)
+      .values(
+        values.map((value) => ({
+          id: createId(),
+          ...value,
+        }))
+      )
+      .returning();
+
+      return c.json({ data });
     }
   )
   .patch(
@@ -204,12 +229,7 @@ const app = new Hono()
           .select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-          .where(
-            and(
-              eq(transactions.id, id),
-              eq(accounts.userId, auth.userId)
-            )
-          )
+          .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
       );
 
       const [data] = await db
@@ -217,9 +237,12 @@ const app = new Hono()
         .update(transactions)
         .set(values)
         .where(
-          inArray(transactions.id, sql`(select id from ${transactionsToUpdate})`)
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionsToUpdate})`
+          )
         )
-        .returning()
+        .returning();
 
       if (!data) {
         return c.json({ error: "Transaction not found to change" }, 404);
@@ -244,31 +267,22 @@ const app = new Hono()
         return c.json({ error: "Unauthorized User" }, 401);
       }
 
-
       const transactionToDelete = db.$with("transaction_to_delete").as(
         db
           .select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-          .where(
-            and(
-              eq(transactions.id, id),
-              eq(accounts.userId, auth.userId)
-            )
-          )
+          .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
       );
 
       const [data] = await db
         .with(transactionToDelete)
         .delete(transactions)
         .where(
-          inArray(
-            transactions.id,
-            sql`(select id from ${transactionToDelete})`
-          )
+          inArray(transactions.id, sql`(select id from ${transactionToDelete})`)
         )
         .returning({
-            id: transactions.id
+          id: transactions.id,
         });
 
       if (!data) {
