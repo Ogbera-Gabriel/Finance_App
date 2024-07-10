@@ -7,7 +7,7 @@ import { client } from "@/lib/hono";
 type ResponseType = InferResponseType<typeof client.api.transactions[":id"]["$delete"]>
 
 
-export const useDeleteAccount = (id?: string) => {
+export const useDeleteTransactions = (id?: string) => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation<
