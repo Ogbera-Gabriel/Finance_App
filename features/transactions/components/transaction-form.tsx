@@ -65,8 +65,8 @@ export const TransactionForm = ({
     onSubmit({
       ...values,
       amount: amountInMiliunits,
-      notes: values.notes ?? "",
-    })
+      notes: values.notes ?? '',
+    });
   };
 
   const handleDelete = () => {
@@ -139,7 +139,12 @@ export const TransactionForm = ({
             <FormItem>
               <FormLabel>Payee</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Add Payee" disabled={disabled} />
+                <Input
+                  {...field}
+                  value={field.value}
+                  placeholder="Add Payee"
+                  disabled={disabled}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -153,7 +158,7 @@ export const TransactionForm = ({
               <FormControl>
                 <Textarea
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                   placeholder="Optional Notes"
                   disabled={disabled}
                 />
@@ -161,14 +166,18 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
-         <FormField
+        <FormField
           name="amount"
           control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <AmountInput {...field} placeholder="0.00" disabled={disabled} />
+                <AmountInput
+                  {...field}
+                  placeholder="0.00"
+                  disabled={disabled}
+                />
               </FormControl>
             </FormItem>
           )}
