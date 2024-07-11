@@ -72,7 +72,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       );
     },
     cell: ({ row }) => {
-      const finalAmount = covertAmountFromMiliunits(row.getValue('amount'));
+      const finalAmount = parseFloat(row.getValue('amount'));
       return (
         <Badge
           variant={finalAmount < 0 ? 'destructive' : 'emerald'}

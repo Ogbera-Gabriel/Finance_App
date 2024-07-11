@@ -9,7 +9,7 @@ import {
 import { Button } from "../ui/button";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useOpenTransaction } from "@/features/transactions/hooks/use-open-account";
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
 
 type Props = {
