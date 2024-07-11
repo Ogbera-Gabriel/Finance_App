@@ -12,3 +12,10 @@ export function covertAmountToMiliunits(amount: number) {
 export function covertAmountFromMiliunits(amount: number) {
   return amount / 1000;
 }
+
+export function formatCurrency(amount: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
+}

@@ -52,6 +52,10 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        emerald: {
+           DEFAULT: "#10B981",
+           foreground: "#064E3B"
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
