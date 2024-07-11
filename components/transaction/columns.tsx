@@ -10,6 +10,8 @@ import { Actions } from './actions';
 import { format } from 'date-fns';
 import { covertAmountFromMiliunits, formatCurrency } from '@/lib/utils';
 import { Badge } from '../ui/badge';
+import { AccountColumn } from './account-column';
+import { CategoryColumn } from './category-column';
 
 export type ResponseType = InferResponseType<
   typeof client.api.transactions.$get,
@@ -72,9 +74,9 @@ export const columns: ColumnDef<ResponseType>[] = [
     cell: ({ row }) => {
       const finalAmount = covertAmountFromMiliunits(row.getValue('amount'));
       return (
-        <Badge 
-        variant={finalAmount < 0 ? 'destructive' : 'emerald'}
-        className='text-xs font-medium px-3.5 py-2.5'
+        <Badge
+          variant={finalAmount < 0 ? 'destructive' : 'emerald'}
+          className="text-xs font-medium px-3.5 py-2.5"
         >
           {formatCurrency(finalAmount)}
         </Badge>
@@ -94,6 +96,14 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <AccountColumn
+          account={row.original.account}
+          accountId={row.original.accountId}
+        />
+      );
+    },
   },
   {
     accessorKey: 'category',
@@ -106,6 +116,15 @@ export const columns: ColumnDef<ResponseType>[] = [
           Category
           <ArrowUpDown className="size-4 ml-2" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <CategoryColumn
+          id={row.original.id}
+          category={row.original.category}
+          categoryId={row.original.categoryId}
+        />
       );
     },
   },
