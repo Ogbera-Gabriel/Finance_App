@@ -1,0 +1,21 @@
+Type,Product,Started Date,Completed Date,Description,Amount,Fee,Currency,State,Balance
+Purchase,Book,2024-07-02,2024-06-17,Bought a book,20.0,1.0,USD,Completed,19.0
+Sale,Laptop,2024-07-11,2024-06-28,Sold a laptop,750.0,15.0,USD,Completed,735.0
+Refund,Phone,2024-07-04,2024-07-04,Refund for phone,-300.0,5.0,USD,Completed,-305.0
+Purchase,Headphones,2024-07-06,2024-06-28,Bought headphones,100.0,2.0,USD,Completed,98.0
+Withdrawal,Cash,2024-06-14,2024-06-14,Withdrew cash,-500.0,0.0,USD,Completed,-500.0
+Deposit,Check,2024-06-19,2024-06-13,Deposited check,1000.0,10.0,USD,Completed,990.0
+Purchase,Tablet,2024-06-12,2024-06-22,Bought a tablet,250.0,3.0,USD,Completed,247.0
+Refund,Watch,2024-07-05,2024-07-05,Refund for watch,-150.0,4.0,USD,Completed,-154.0
+Sale,Monitor,2024-06-23,2024-06-22,Sold a monitor,400.0,20.0,USD,Completed,380.0
+Deposit,Cash,2024-06-29,2024-07-07,Deposited cash,500.0,0.0,USD,Completed,500.0
+Purchase,Keyboard,2024-06-29,2024-06-14,Bought a keyboard,50.0,0.5,USD,Completed,49.5
+Sale,Mouse,2024-07-05,2024-07-01,Sold a mouse,30.0,1.0,USD,Completed,29.0
+Refund,Camera,2024-07-09,2024-06-26,Refund for camera,-200.0,3.0,USD,Completed,-203.0
+Purchase,Shoes,2024-07-06,2024-06-28,Bought shoes,120.0,2.5,USD,Completed,117.5
+Withdrawal,Glasses,2024-06-16,2024-07-03,Withdrew cash,-60.0,0.0,USD,Completed,-60.0
+Deposit,Bag,2024-06-30,2024-07-10,Deposited bag,70.0,1.5,USD,Completed,68.5
+Purchase,Printer,2024-06-13,2024-06-23,Bought a printer,150.0,7.0,USD,Completed,143.0
+Refund,Notebook,2024-06-30,2024-06-29,Refund for notebook,-10.0,0.2,USD,Completed,-10.2
+Sale,Speaker,2024-06-12,2024-06-24,Sold a speaker,300.0,10.0,USD,Completed,290.0
+Deposit,Pen,2024-06-26,2024-07-10,Deposited pen,5.0,0.1,USD,Completed,4.9
