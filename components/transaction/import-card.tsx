@@ -19,9 +19,56 @@ type Props = {
 };
 
 export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
-  const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>({});
+  const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>(
+    {}
+  );
   const headers = data[0];
   const body = data.slice(1);
+  const onTableHeadSelectChange = (
+    columnIndex: number,
+    value: string | null
+  ) => {
+    setSelectedColumns((prev) => {
+      const newColumns = { ...prev };
+      for (const key in newColumns) {
+        if (newColumns[key] === value) {
+          newColumns[key] = null;
+        }
+      }
+
+      if (value === 'skip') {
+        value = null;
+      }
+      newColumns[`column_${columnIndex}`] = value;
+
+      return newColumns;
+    });
+  };
+  const progress = Object.values(selectedColumns).filter(Boolean).length;
+  const disabledProgress = progress < requiredOptions.length;
+  const handleContinue = () => {
+    const getColumnIndex = (column: string) => {
+      return column.split('_')[1];
+    };
+
+    const mappedData = {
+      headers: headers.map((_header, index) => {
+        const columnIndex = getColumnIndex(`column_${index}`);
+        return selectedColumns[`column_${columnIndex}`] || null;
+      }),
+      body: body.map((row) => {
+        const transformedRow = row.map((cell, index) => {
+          const columnIndex = getColumnIndex(`column_${index}`);
+          return selectedColumns[`column_${columnIndex}`] ? cell : null;
+        });
+
+        return transformedRow.every((item) => item === null)
+          ? []
+          : transformedRow;
+      }).filter((row) => row.length > 0),
+    };
+    console.log({ mappedData });
+  };
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm">
@@ -29,19 +76,27 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
           <CardTitle className="text-xl line-clamp-1">
             Import Transaction
           </CardTitle>
-          <div className="flex items-center gap-x-2">
-            <Button onClick={onCancel} size="sm">
+          <div className="flex flex-col lg:flex-row items-center gap-x-2 gap-y-2">
+            <Button onClick={onCancel} size="sm" className="w-full lg:w-auto">
               Cancel
+            </Button>
+            <Button
+              disabled={disabledProgress}
+              onClick={handleContinue}
+              size="sm"
+              className="w-full lg:w-auto"
+            >
+              Continue ({progress} / {requiredOptions.length})
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-            <ImportTable
-              headers={headers}
-              body={body}
-              selectedColumns={selectedColumns}
-              onTableHeadSelectChange={() => {}}
-            />
+          <ImportTable
+            headers={headers}
+            body={body}
+            selectedColumns={selectedColumns}
+            onTableHeadSelectChange={onTableHeadSelectChange}
+          />
         </CardContent>
       </Card>
     </div>
