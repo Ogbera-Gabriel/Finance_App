@@ -34,7 +34,7 @@ This app is designed to help users manage their finances by allowing them to cre
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/Ogbera-Gabriel/Finance_App.git 
    cd your-repo-name
    ```
 
