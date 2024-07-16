@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Trash } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DatePicker } from '@/components/date-picker';
 import { Button } from '@/components/ui/button';
@@ -84,6 +84,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Date</FormLabel>
               <FormControl>
                 <DatePicker
                   value={field.value}

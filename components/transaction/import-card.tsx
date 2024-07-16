@@ -2,8 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { ImportTable } from './import-table';
+import { covertAmountToMiliunits } from '@/lib/utils';
+import { format, parse } from 'date-fns';
 
-const dataFormat = 'yyyy-MM-dd HH:mm:ss';
+const dateFormat = 'yyyy-MM-dd HH:mm:ss';
 const outputFormat = 'yyyy-MM-dd';
 
 const requiredOptions = ['amount', 'date', 'payee'];
@@ -47,15 +49,18 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
   const progress = Object.values(selectedColumns).filter(Boolean).length;
   const disabledProgress = progress < requiredOptions.length;
   const handleContinue = () => {
+    // Helper function to extract the column index from the column name
     const getColumnIndex = (column: string) => {
       return column.split('_')[1];
     };
-
+    
+    // Map the selected columns to the corresponding data
     const mappedData = {
       headers: headers.map((_header, index) => {
         const columnIndex = getColumnIndex(`column_${index}`);
         return selectedColumns[`column_${columnIndex}`] || null;
       }),
+      // Transform the body data based on the selected columns
       body: body.map((row) => {
         const transformedRow = row.map((cell, index) => {
           const columnIndex = getColumnIndex(`column_${index}`);
@@ -67,7 +72,30 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
           : transformedRow;
       }).filter((row) => row.length > 0),
     };
-    console.log({ mappedData });
+
+    // Converting transformed rows into an array of objects
+    const arrayOfData = mappedData.body.map((row) => {
+      return row.reduce((acc: any, cell, index) => {
+        const header = mappedData.headers[index];
+        if(header !== null) {
+          acc[header] = cell;
+        }
+
+        return acc;
+      }, {});
+    });
+    
+    // Formatting the date and amount
+    const formattedData = arrayOfData.map((row) => {
+      return {
+        ...row,
+        amount: covertAmountToMiliunits(row.amount),
+        date: format(parse(row.date, dateFormat, new Date()), outputFormat),
+      };
+    });
+
+    // Sending the formatted data to the parent component
+    onSubmit(formattedData);
   };
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">

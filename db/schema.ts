@@ -42,7 +42,7 @@ export const transactions = pgTable("transactions", {
   amount: integer("amount").notNull(),
   date: timestamp("date", { mode: "date" }).notNull(),
   payee: text("payee").notNull(),
-  notes: text("notes").notNull(),
+  notes: text("notes"),
 });
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({
