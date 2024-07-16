@@ -1,10 +1,10 @@
 import { db } from '@/db/drizzle';
-import { accounts, transactions } from '@/db/schema';
+import { accounts, categories, transactions } from '@/db/schema';
 import { calculatePercentageChange } from '@/lib/utils';
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth';
 import { zValidator } from '@hono/zod-validator';
 import { subDays, parse, differenceInDays } from 'date-fns';
-import { and, eq, gte, lte, sql, sum } from 'drizzle-orm';
+import { and, desc, eq, gte, lt, lte, sql, sum } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 
@@ -94,12 +94,42 @@ const app = new Hono().get(
       lastPeriod.remaining
     );
 
+    const category = await db
+      .select({
+        name: categories.name,
+        value: sql`SUM(ABS(${transactions.amount}))`.mapWith(Number),
+      })
+      .from(transactions)
+      .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+      .innerJoin(categories, eq(transactions.categoryId, categories.id))
+      .where(
+        and(
+          accountId ? eq(transactions.id, accountId) : undefined,
+          eq(accounts.userId, auth.userId),
+          lt(transactions.amount, 0),
+          gte(transactions.date, startDate),
+          lte(transactions.date, endDate)
+        )
+      )
+      .groupBy(categories.name)
+      .orderBy(desc(sql`SUM(ABS(${transactions.amount}))`));
+
+    const topCatergory = category.slice(0, 3);
+    const otherCatergory = category.slice(3);
+
+    const otherSum = otherCatergory.reduce((acc, cur) => acc + cur.value, 0);
+    const finalCatergories = topCatergory;
+    if(otherCatergory.length > 0) {
+      finalCatergories.push({ name: 'Other', value: otherSum });
+    }
+
     return c.json({
       currentPeriod,
       lastPeriod,
       incomeChange,
       expenseChange,
       remainingChange,
+      finalCatergories,
     });
   }
 );
