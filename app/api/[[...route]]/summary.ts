@@ -54,7 +54,7 @@ const app = new Hono().get(
             sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(
               Number
             ),
-          remaining: sum(transactions.amount).mapWith(Number),
+          remaining: sum(transactions.amount).mapWith(Number), //Total Transactions
         })
         .from(transactions)
         .innerJoin(accounts, eq(accounts.id, transactions.accountId))
@@ -123,33 +123,44 @@ const app = new Hono().get(
       finalCatergories.push({ name: 'Other', value: otherSum });
     }
 
-    const activeDays = await db 
+    const activeDays = await db
       .select({
         date: transactions.date,
-        income: sql`SUM(CASE WHEN ${transactions.amount} >= 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(Number),
-        expenses: sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(Number),
+        income:
+          sql`SUM(CASE WHEN ${transactions.amount} >= 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(
+            Number
+          ),
+        expenses:
+          sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(
+            Number
+          ),
       })
       .from(transactions)
       .innerJoin(accounts, eq(accounts.id, transactions.accountId))
-      .where(and(
-        accountId ? eq(transactions.accountId, accountId) : undefined,
-        eq(accounts.userId, auth.userId),
-        gte(transactions.date, startDate),
-        lte(transactions.date, endDate)
-      ))
+      .where(
+        and(
+          accountId ? eq(transactions.accountId, accountId) : undefined,
+          eq(accounts.userId, auth.userId),
+          gte(transactions.date, startDate),
+          lte(transactions.date, endDate)
+        )
+      )
       .groupBy(transactions.date)
       .orderBy(transactions.date);
 
-    const days  = fillMissingDays(activeDays, startDate, endDate);
+    const days = fillMissingDays(activeDays, startDate, endDate);
 
     return c.json({
-      currentPeriod,
-      lastPeriod,
-      incomeChange,
-      expenseChange,
-      remainingChange,
-      finalCatergories,
-      days
+      data: {
+        remainingAmount: currentPeriod.remaining,
+        remainingChange,
+        incomeAmount: currentPeriod.income,
+        incomeChange,
+        expenseAmount: currentPeriod.expenses,
+        expenseChange,
+        categories: finalCatergories,
+        days,
+      },
     });
   }
 );
