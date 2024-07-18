@@ -1,33 +1,35 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
-import { NavButton } from "./navbutton";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useMedia } from "react-use";
-import { useState } from "react";
-import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
+import { usePathname, useRouter } from 'next/navigation';
+import { NavButton } from './navbutton';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useMedia } from 'react-use';
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { Menu } from 'lucide-react';
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 const routes = [
   {
-    href: "/",
-    label: "Overview",
+    href: '/',
+    label: 'Overview',
   },
   {
-    href: "/transactions",
-    label: "Transactions",
+    href: '/transactions',
+    label: 'Transactions',
   },
   {
-    href: "/accounts",
-    label: "Accounts",
+    href: '/accounts',
+    label: 'Accounts',
   },
   {
-    href: "/categories",
-    label: "Categories",
+    href: '/categories',
+    label: 'Categories',
   },
   {
-    href: "/settings",
-    label: "Settings",
+    href: '/settings',
+    label: 'Settings',
   },
 ];
 
@@ -35,7 +37,7 @@ export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const isMobile = useMedia("(max-width: 1024px)", false);
+  const isMobile = useMedia('(max-width: 1024px)', false);
 
   const onClick = (href: string) => {
     router.push(href);
@@ -51,10 +53,16 @@ export const Navigation = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="px-2">
+          <DialogTitle>
+            <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
+          </DialogTitle>
+          <DialogDescription>
+            <VisuallyHidden.Root>Navigation</VisuallyHidden.Root>
+          </DialogDescription>
           <nav className="flex flex-col gap-y-2 pt-6">
             {routes.map((route) => (
               <Button
-                variant={route.href === pathname ? "secondary" : "ghost"}
+                variant={route.href === pathname ? 'secondary' : 'ghost'}
                 key={route.href}
                 onClick={() => onClick(route.href)}
                 className="w-full justify-start"
