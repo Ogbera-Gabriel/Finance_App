@@ -11,7 +11,7 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed" : "bun ./scripts/seed.ts",
+    "db:seed": "bun ./scripts/seed.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -51,6 +51,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "react-icons": "^5.2.1",
     "react-papaparse": "^4.4.0",
     "react-select": "^5.8.0",
     "react-test-renderer": "^18.3.1",
