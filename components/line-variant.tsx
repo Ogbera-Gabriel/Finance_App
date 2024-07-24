@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import {
-  Bar,
-  BarChart,
+  Line,
+  LineChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -17,10 +17,10 @@ type Props = {
   }[];
 };
 
-export const BarVariant = ({ data }: Props) => {
+export const LineVariant = ({ data }: Props) => {
     return (
       <ResponsiveContainer width="100%" height={350}>
-        <BarChart data={data}>
+        <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             axisLine={false}
@@ -31,9 +31,9 @@ export const BarVariant = ({ data }: Props) => {
             tickMargin={16}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="income" stackId="income" fill="#3d82f6" className='drop-shadow-sm'/>
-          <Bar dataKey="expenses" stackId="expenses" fill="#f43f5e" className='drop-shadow-sm'/>
-        </BarChart>
+          <Line dataKey="income" dot={false} stroke="#3d82f6" strokeWidth={2} className='drop-shadow-sm'/>
+          <Line dataKey="expenses" dot={false} stroke="#f43f5e" strokeWidth={2} className='drop-shadow-sm'/>
+        </LineChart>
       </ResponsiveContainer>
     )
 }
