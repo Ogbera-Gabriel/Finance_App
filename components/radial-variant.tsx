@@ -1,5 +1,4 @@
 import {
-  Cell,
   RadialBar,
   RadialBarChart,
   ResponsiveContainer,

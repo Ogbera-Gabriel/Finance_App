@@ -9,7 +9,7 @@ const DashBoardLayout = ({ children }: Props) => {
     <>
       <Header />
       <main className="px-3 lg:px-14">
-        <div>{children}</div>
+        {children}
       </main>
     </>
   );

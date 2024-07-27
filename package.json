@@ -11,7 +11,7 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "bun ./scripts/seed.ts",
+    "db:seed": "bun ./scripts/seeds.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
