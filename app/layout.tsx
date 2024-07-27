@@ -31,6 +31,7 @@ export default function RootLayout({
               enableSystem
               defaultTheme="light"
               disableTransitionOnChange
+              storageKey="theme"
             >
             {children}
             </ThemeProvider>
