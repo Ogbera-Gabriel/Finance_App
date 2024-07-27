@@ -7,6 +7,7 @@ import { ChartLoading } from './chart-loading';
 
 export const DataCharts = () => {
   const { data, isLoading } = useGetSummary();
+  console.log(data?.categories)
 
   if (isLoading) {
     return (
