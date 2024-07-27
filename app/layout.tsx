@@ -5,6 +5,7 @@ import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import { SheetProvider } from "@/providers/sheet-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,19 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
+      <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}> 
           <QueryProvider>
             <SheetProvider />
             <Toaster />
+            <ThemeProvider
+              attribute="class"
+              enableSystem
+              defaultTheme="light"
+              disableTransitionOnChange
+            >
             {children}
+            </ThemeProvider>
           </QueryProvider>
         </body>
       </html>
