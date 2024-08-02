@@ -84,6 +84,7 @@ export function formatDateRange (period? : Period) {
 export function formatPercentage(value: number, options: { addPrefix?: boolean } = {addPrefix: false}) {
    const result = new Intl.NumberFormat('en-US', {
      style: 'percent',
+     maximumFractionDigits: 2,
    }).format(value / 100);
    
   if (options.addPrefix && value > 0) {
