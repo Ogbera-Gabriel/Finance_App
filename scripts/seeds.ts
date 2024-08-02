@@ -42,28 +42,29 @@ const defaultFrom = subDays(defaultTo, 90);
 
 const SEED_TRANSACTIONS: (typeof transactions.$inferSelect)[] = [];
 
-const generateRandomAmount = (catergory: typeof categories.$inferInsert) => {
-  switch (catergory.name) {
+const generateRandomAmount = (category: typeof categories.$inferInsert) => {
+  switch (category.name) {
     case 'Food':
-      return Math.random() * 100 + 50;
+      return Math.random() * 300 + 300; // $300 - $600
     case 'Grocery':
-      return Math.floor(Math.random() * 100) + 50;
+      return Math.random() * 300 + 300; // $300 - $600
     case 'Entertainment':
-      return Math.floor(Math.random() * 100) + 150;
+      return Math.random() * 200 + 100; // $100 - $300
     case 'Clothing':
-      return Math.floor(Math.random() * 90) + 20;
+      return Math.random() * 100 + 50; // $50 - $150
     case 'Housing':
-      return Math.floor(Math.random() * 400) + 10;
+      return Math.random() * 1500 + 1000; // $1000 - $2500
     case 'Transportation':
-      return Math.floor(Math.random() * 200) + 90;
+      return Math.random() * 500 + 300; // $300 - $800
     case 'Utilities':
-      return Math.floor(Math.random() * 100) + 50;
+      return Math.random() * 200 + 200; // $200 - $400
     case 'Insurance':
-      return Math.floor(Math.random() * 500) + 100;
+      return Math.random() * 300 + 300; // $300 - $600
     default:
-      return Math.random() * 50 + 50;
+      return Math.random() * 100 + 50; // Default case: $50 - $150
   }
 };
+
 
 const generateTransactionsForDay = (day: Date) => {
   const numTransactions = Math.floor(Math.random() * 4) + 1; // 1-4
