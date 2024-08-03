@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.setup.ts", "jest.config.ts", "test/hooks/useBulkDeleteAccounts.test.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.setup.js", "jest.config.js", "test/hooks/useBulkDeleteAccounts.test.ts"],
   "exclude": ["node_modules"]
 }
