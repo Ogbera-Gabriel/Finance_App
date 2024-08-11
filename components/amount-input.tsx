@@ -63,6 +63,7 @@ export const AmountInput = React.forwardRef<HTMLInputElement, Props>(
           decimalScale={2}
           onValueChange={onChange}
           disabled={disabled}
+          allowNegativeValue
         />
         <p className='text-xs text-muted-foreground mt-2'>
           {isIncome && "This is an income"}
