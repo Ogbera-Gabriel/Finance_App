@@ -25,7 +25,7 @@ describe('calculatePercentageChange', () => {
 
   test('returns correct percentage when dealing with negative values', () => {
     expect(calculatePercentageChange(-50, -100)).toBe(50);
-    expect(calculatePercentageChange(-100, -50)).toBe(-200);
+    expect(calculatePercentageChange(-100, -50)).toBe(-100);
   });
 
   test('handles fractional results correctly by rounding to nearest integer', () => {
