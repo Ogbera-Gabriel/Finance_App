@@ -21,11 +21,28 @@ export function formatCurrency(amount: number) {
   }).format(amount);
 }
 
-export function calculatePercentageChange(current: number, previous: number) {
+// export function calculatePercentageChange(current: number, previous: number) {
+//   if (previous === 0) {
+//     return previous === current ? 0 : 100;
+//   }
+//   return Math.round(((current - previous) / previous) * 100);
+// }
+
+export function calculatePercentageChange(current: number, previous: number): number {
+  // Handle edge cases
   if (previous === 0) {
-    return previous === current ? 0 : 100;
+    return current === 0 ? 0 : (current > 0 ? 100 : -100);
   }
-  return Math.round(((current - previous) / previous) * 100);
+
+  if (!Number.isFinite(current) || !Number.isFinite(previous)) {
+    return NaN;
+  }
+
+  // Calculate percentage change
+  const percentageChange = ((current - previous) / Math.abs(previous)) * 100;
+
+  // Round to 4 decimal places for financial precision
+  return Number(percentageChange.toFixed(4));
 }
 
 export function fillMissingDays(
