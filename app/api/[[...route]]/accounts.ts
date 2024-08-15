@@ -6,7 +6,7 @@ import { and, eq, inArray } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
-import { MiddlewareHandler, Env } from "hono";
+
 
 const app = new Hono()
   .get("/", clerkMiddleware(), async (c) => {
