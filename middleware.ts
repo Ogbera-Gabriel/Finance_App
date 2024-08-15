@@ -10,7 +10,7 @@ export default clerkMiddleware((auth, request) =>{
 });
 
 const isProtectedRoute = createRouteMatcher([
-  '/',
+  '/((?!sign-in|sign-out).*)',
 ]);
 
 export const config = {
