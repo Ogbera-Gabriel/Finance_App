@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "cy:open": "cypress open",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "next lint",
@@ -69,12 +70,14 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@clerk/testing": "^1.2.10",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cypress": "^13.13.3",
     "dotenv": "^16.4.5",
     "drizzle-kit": "latest",
     "eslint": "^8",
