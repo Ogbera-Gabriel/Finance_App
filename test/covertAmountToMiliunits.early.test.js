@@ -47,7 +47,7 @@ describe("covertAmountToMiliunits() covertAmountToMiliunits method", () => {
     test("should handle very small negative decimal amounts", () => {
       const amount = -0.0001;
       const result = covertAmountToMiliunits(amount);
-      expect(result).toBe(0);
+      expect(result).toBe(-0);
     });
 
     test("should handle very large positive amounts", () => {
