@@ -6,3 +6,6 @@ Dockerfile
 README.md
 bun.lockb
 .env.local
+.swn
+.swc
+.early.coverage
