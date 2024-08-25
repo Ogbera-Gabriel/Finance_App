@@ -11,9 +11,10 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Finance App",
-  description: "Budgeting app for tracking expenses",
+  title: "Finance App - Track Expenses, Budget, and Manage Finances",
+  description: "Take control of your finances with our comprehensive budgeting app. Easily track expenses, set budget goals, and monitor your financial health. Start managing your money smarter today!",
 };
+
 
 export default function RootLayout({
   children,
