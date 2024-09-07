@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { ImportTable } from './import-table';
 import { covertAmountToMiliunits } from '@/lib/utils';
-import { format, parse } from 'date-fns';
+import { format as formatDateFn, parse } from 'date-fns'; // Rename import
 
-const dateFormat = 'yyyy-MM-dd HH:mm:ss';
+//const dateFormats = ['yyyy-MM-dd HH:mm:ss', 'dd-MM-yyyy', 'MM/dd/yyyy']; // Add more formats as needed
 const outputFormat = 'yyyy-MM-dd';
 
 const requiredOptions = ['amount', 'date', 'payee'];
@@ -90,7 +90,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
       return {
         ...row,
         amount: covertAmountToMiliunits(row.amount),
-        date: format(parse(row.date, dateFormat, new Date()), outputFormat),
+        date: formatDateFn(row.date, outputFormat), // Provide the output format as the second argument
       };
     });
 
@@ -130,3 +130,4 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     </div>
   );
 };
+
