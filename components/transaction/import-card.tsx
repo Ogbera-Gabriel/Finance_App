@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { ImportTable } from './import-table';
 import { covertAmountToMiliunits } from '@/lib/utils';
 import { format as formatDateFn, parse } from 'date-fns'; // Rename import
+import { toast } from 'sonner';
+import { useRouter } from "next/router";
 
 const dateFormats = ['yyyy-MM-dd HH:mm:ss', 'dd-MM-yyyy', 'MM/dd/yyyy']; // Add more formats as needed
 const outputFormat = 'yyyy-MM-dd';
@@ -21,6 +23,7 @@ type Props = {
 };
 
 export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
+  const router = useRouter();
   const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>(
     {}
   );
@@ -92,13 +95,16 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
         amount: covertAmountToMiliunits(row.amount),
         date: (() => {
           const parsedDate = dateFormats.map(format => parse(row.date, format, new Date())).find(date => !isNaN(date.getTime()));
-          return parsedDate ? formatDateFn(parsedDate, outputFormat) : null; 
+          return parsedDate ? formatDateFn(parsedDate, outputFormat) : toast.error('Invalid date format. Please check your date format.'); 
         })(),
       };
     });
 
     // Sending the formatted data to the parent component
     onSubmit(formattedData);
+    toast.success('Transaction imported successfully');
+
+    router.push('/transactions');
   };
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
