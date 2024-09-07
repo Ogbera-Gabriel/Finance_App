@@ -5,7 +5,7 @@ import { ImportTable } from './import-table';
 import { covertAmountToMiliunits } from '@/lib/utils';
 import { format as formatDateFn, parse } from 'date-fns'; // Rename import
 import { toast } from 'sonner';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 
 const dateFormats = ['yyyy-MM-dd HH:mm:ss', 'dd-MM-yyyy', 'MM/dd/yyyy']; // Add more formats as needed
 const outputFormat = 'yyyy-MM-dd';
@@ -56,7 +56,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     const getColumnIndex = (column: string) => {
       return column.split('_')[1];
     };
-    
+
     // Map the selected columns to the corresponding data
     const mappedData = {
       headers: headers.map((_header, index) => {
@@ -64,38 +64,46 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
         return selectedColumns[`column_${columnIndex}`] || null;
       }),
       // Transform the body data based on the selected columns
-      body: body.map((row) => {
-        const transformedRow = row.map((cell, index) => {
-          const columnIndex = getColumnIndex(`column_${index}`);
-          return selectedColumns[`column_${columnIndex}`] ? cell : null;
-        });
+      body: body
+        .map((row) => {
+          const transformedRow = row.map((cell, index) => {
+            const columnIndex = getColumnIndex(`column_${index}`);
+            return selectedColumns[`column_${columnIndex}`] ? cell : null;
+          });
 
-        return transformedRow.every((item) => item === null)
-          ? []
-          : transformedRow;
-      }).filter((row) => row.length > 0),
+          return transformedRow.every((item) => item === null)
+            ? []
+            : transformedRow;
+        })
+        .filter((row) => row.length > 0),
     };
 
     // Converting transformed rows into an array of objects
     const arrayOfData = mappedData.body.map((row) => {
       return row.reduce((acc: any, cell, index) => {
         const header = mappedData.headers[index];
-        if(header !== null) {
+        if (header !== null) {
           acc[header] = cell;
         }
 
         return acc;
       }, {});
     });
-    
+
     // Formatting the date and amount
     const formattedData = arrayOfData.map((row) => {
       return {
         ...row,
         amount: covertAmountToMiliunits(row.amount),
         date: (() => {
-          const parsedDate = dateFormats.map(format => parse(row.date, format, new Date())).find(date => !isNaN(date.getTime()));
-          return parsedDate ? formatDateFn(parsedDate, outputFormat) : toast.error('Invalid date format. Please check your date format.'); 
+          const parsedDate = dateFormats
+            .map((format) => parse(row.date, format, new Date()))
+            .find((date) => !isNaN(date.getTime()));
+          return parsedDate
+            ? formatDateFn(parsedDate, outputFormat)
+            : toast.error(
+                'Invalid date format. Please check your date format.'
+              );
         })(),
       };
     });
@@ -139,4 +147,3 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     </div>
   );
 };
-
