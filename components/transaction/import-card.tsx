@@ -101,9 +101,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
             .find((date) => !isNaN(date.getTime()));
           return parsedDate
             ? formatDateFn(parsedDate, outputFormat)
-            : toast.error(
-                'Invalid date format. Please check your date format.'
-              );
+            : null;
         })(),
       };
     });
