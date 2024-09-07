@@ -106,6 +106,20 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
       };
     });
 
+    // Validation for required fields
+    const isValid = arrayOfData.every((row) => {
+      return (
+        typeof row.amount === 'number' && 
+        typeof row.date === 'string' && 
+        typeof row.payee === 'string' 
+      );
+    });
+
+    if (!isValid) {
+      toast.error('Please ensure all fields are of the correct type.');
+      return; 
+    }
+
     // Sending the formatted data to the parent component
     onSubmit(formattedData);
     toast.success('Transaction imported successfully');
