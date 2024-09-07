@@ -5,7 +5,7 @@ import { ImportTable } from './import-table';
 import { covertAmountToMiliunits } from '@/lib/utils';
 import { format as formatDateFn, parse } from 'date-fns'; // Rename import
 
-//const dateFormats = ['yyyy-MM-dd HH:mm:ss', 'dd-MM-yyyy', 'MM/dd/yyyy']; // Add more formats as needed
+const dateFormats = ['yyyy-MM-dd HH:mm:ss', 'dd-MM-yyyy', 'MM/dd/yyyy']; // Add more formats as needed
 const outputFormat = 'yyyy-MM-dd';
 
 const requiredOptions = ['amount', 'date', 'payee'];
@@ -90,7 +90,10 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
       return {
         ...row,
         amount: covertAmountToMiliunits(row.amount),
-        date: formatDateFn(row.date, outputFormat), // Provide the output format as the second argument
+        date: (() => {
+          const parsedDate = dateFormats.map(format => parse(row.date, format, new Date())).find(date => !isNaN(date.getTime()));
+          return parsedDate ? formatDateFn(parsedDate, outputFormat) : null; 
+        })(),
       };
     });
 
